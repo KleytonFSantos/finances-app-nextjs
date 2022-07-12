@@ -1,39 +1,67 @@
 import React from 'react'
-import GridItem from '../shared/gridItems'
+import { FaRegArrowAltCircleDown, FaRegArrowAltCircleUp, FaTrash } from 'react-icons/fa';
 
 interface GridProps {
-    item: any[];
-    setItem: (item: any[]) => void;
+    recebidos: string | number;
+    gastos: string | number;
 }
 
-function Grid({ item, setItem }: GridProps) {
-    
-    const onDelete = (ID: any) => {
-        confirm('Você deseja mesmo deletar?');
-        const newArray = item.filter((transaction) => transaction.id !== ID);
-        setItem(newArray);
-        localStorage.setItem('transaction', JSON.stringify(newArray));
-    }
+function Grid({ recebidos, gastos,  }: GridProps) {
   
 return (
-    <table className="w-full bg-slate-100 shadow rounded mt-8">
-        <thead>
-            <tr>
-                <th className="w-[26.6%] text-left inset-y-auto pl-3">Descrição</th>
-                <th className="w-[26.6%] text-left inset-y-auto">Valor</th>
-                <th className="w-[26.6%] text-left inset-y-auto">Data</th>
-                <th className="w-[10%] text-left inset-y-auto" >
-                    Tipo
-                </th>
-                <th className="w-[10%] inset-y-auto text-center"></th>
-            </tr>
-        </thead>
-        <tbody>
-            {item?.map((item, index) =>(
-                <GridItem onDelete={onDelete} key={index} item={item}></GridItem>
-            ))}
-        </tbody>
-    </table>
+<>
+<div className="container flex flex-col mx-auto w-[50%] items-center justify-start bg-white dark:bg-gray-800 shadow">
+    <ul className="flex flex-col divide divide-y">
+    {recebidos?.map((income) =>(
+        <li key={income.id}className="flex flex-row">
+            <div className="select-none cursor-pointer flex flex-1 items-center p-4">
+                
+                <div className="flex-1 pl-1 mr-16">
+                    <div className="font-medium dark:text-white">
+                        {income.description}
+                    </div>
+                    <div className="text-gray-600 dark:text-gray-200 text-sm">
+                       R$ {income.incomes.toFixed(2)}
+                    </div>
+                </div>
+                <div className="text-gray-600 dark:text-gray-200 text-xs mr-3">
+                    <FaRegArrowAltCircleUp color="green" size={20}/>
+                </div>
+                <div className="text-gray-600 dark:text-gray-200 text-xs">
+                    {income.date}
+                </div>
+            </div>
+        </li>
+          ))}
+    </ul>
+</div>
+<div className="container flex flex-col mx-auto w-[50%] items-center justify-start bg-white dark:bg-gray-800 shadow">
+    <ul className="flex flex-col divide divide-y">
+         {gastos?.map((expense) =>(
+        <li key={expense.id}className="flex flex-row">
+            <div className="select-none cursor-pointer flex flex-1 items-center p-4">
+                
+                <div className="flex-1 pl-1 mr-16">
+                    <div className="font-medium dark:text-white">
+                        {expense.description}
+                    </div>
+                    <div className="text-gray-600 dark:text-gray-200 text-sm">
+                      R$  {expense.expenses.toFixed(2)}
+                    </div>
+                </div>
+                <div className="text-gray-600 dark:text-gray-200 text-xs mr-3">
+                    <FaRegArrowAltCircleDown color="red" size={20} />
+                </div>
+                <div className="text-gray-600 dark:text-gray-200 text-xs">
+                    {expense.date}
+                </div>
+            </div>
+        </li>
+          ))}
+           </ul> 
+
+</div>
+</>
     )
 }
 

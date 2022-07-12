@@ -1,13 +1,11 @@
-import type { NextPage } from 'next'
+import type { GetServerSideProps, GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 import FinancesHome from '../components/layout/FinancesHome'
 import styles from '../styles/Home.module.css'
-import { FcUp } from 'react-icons/fc'
 import prisma from '../lib/prisma'
-import { Key, ReactElement, JSXElementConstructor, ReactFragment, ReactPortal } from 'react'
 
-const Home: NextPage<any> = ({ incomes }) => {
 
+const Home: NextPage<any> = ({ incomes, expenses }) => {
   
   console.log(incomes)
   return (
@@ -15,28 +13,24 @@ const Home: NextPage<any> = ({ incomes }) => {
       <Head>
         <title>Finances-App</title>
       </Head>
-      <div>
-        {incomes.map((income: { id: Key | null | undefined; description: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; incomes: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; date: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined }) => (
-          <div key={income.id}>
-            <h1>{income.description}</h1>
-            <p>{income.incomes}</p>
-            <p>{income.date}</p>
-          </div>
-        ))}
-      </div>
-      {/* <FinancesHome /> */}
+      <FinancesHome recebimentos={ incomes } gastos={ expenses }/> 
     </div>
   )
 }
-export async function getStaticProps() {
+
+export const getStaticProps: GetStaticProps = async () => {
 
   let incomes = await prisma.incomes.findMany();
-
   incomes = JSON.parse(JSON.stringify(incomes));
-
-  console.log(incomes);
+  let expenses = await prisma.expenses.findMany();
+  expenses = JSON.parse(JSON.stringify(expenses));
+  console.log(expenses)
   return {
-      props: { incomes }
+      props: { incomes, 
+              expenses 
+            },
+            revalidate: 10,
   }
 }
+
 export default Home

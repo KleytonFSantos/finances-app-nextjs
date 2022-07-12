@@ -3,8 +3,8 @@ import Card from './cards'
 import { Cardholder, CurrencyDollar, Money } from 'phosphor-react';
 
 interface ResumeProps {
-    income: number;
-    expense: number;
+    income: string;
+    expense: string;
     total: number;
 }
 
@@ -29,5 +29,5 @@ function Resume( { income, expense, total }: ResumeProps ) {
       </div>
       )
   }
-  
+
   export default Resume

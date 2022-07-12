@@ -4,7 +4,7 @@ interface CardsProps {
     styles: string;
     title: string;
     Icon: any;
-    value: number;
+    value: string | number;
 }
 
 function cards({ title, value, Icon, styles }: CardsProps): JSX.Element {

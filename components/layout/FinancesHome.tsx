@@ -3,54 +3,34 @@ import Header from '../shared/header';
 import Resume from '../shared/resume'
 import Form from '../shared/form';
 
+interface IProps {
+  recebimentos: string;
+  gastos: string;
+}
 
-function HomeComponent() {
+function HomeComponent({ recebimentos, gastos }: IProps) {
   
-  
-
-const data = typeof window !== 'undefined' ? 
-localStorage.getItem('transaction') : '';
-
-  const [transactionList, setTransactionList] = useState(
-    data ? JSON.parse(data) : [] //se houverem dados, passa para JSON, se não, põe num array vazio
-  )
-  const [income, setIncome] = useState<string | number>('' || 0);
-  const [expense, setExpense] = useState< string | number>('' ||  0);
-  const [total, setTotal] = useState < string | number>('' || 0);
+  const [income, setIncome] = useState<string>('');
+  const [expense, setExpense] = useState<string>('');
+  const [total, setTotal] = useState <number>(0); 
   const [loading, setLoading] = useState(true);
   
   
   
-  useEffect(() => {
-    const amountExpense = transactionList  // amountExpense é um filtro do local storage buscando expense e um map do amount das Expenses
-    .filter((item: any) => item.expense)
-    .map((transaction: { amount: any; }) => Number(transaction.amount))
+  useEffect(() => {    
+
+    const expense = gastos.reduce((acc: number, cur: { expenses: number; } ) => acc + cur.expenses, 0).toFixed(2); 
+    const income = recebimentos.reduce((acc: number, cur: { incomes: number; } ) => acc + cur.incomes, 0).toFixed(2) 
     
-    const amountIncome = transactionList   // amountIncome é um filtro do local storage buscando coisas diferentes do expense (no caso o income) e um map do amount das Incomes
-    .filter((item: { expense: any; }) => !item.expense)
-    .map((transaction: { amount: any; }) => Number(transaction.amount))
-
-    const expense = amountExpense.reduce((acc: any, cur: any) => acc + cur, 0).toFixed(2) //soma de todos os amountExpense
-   
-    const income = amountIncome.reduce((acc: any, cur: any) => acc + cur, 0).toFixed(2)  //soma de todos os income
-
-    const total = Math.abs(income - expense).toFixed(2); //calculo para encontrar o total
+    const total = Math.abs(income - expense).toFixed(2);
 
     setIncome(`R$ ${income}`);
     setExpense(`R$ ${expense}`);
-    setTotal(`${Number(income) < Number(expense) ? "-" : ""} R$ ${total}`);
+    setTotal(`${income < expense ? "-" : ""} R$ ${total}`);
     setLoading(false);
-  }, [transactionList]);
-
-  const handleAdd = (transaction: any) => {
-    const newArrayTransaction = [...transactionList, transaction]
-
-    setTransactionList(newArrayTransaction)
-
-    localStorage.setItem('transaction', JSON.stringify(newArrayTransaction))
-    setLoading(false);
-  }
-
+  }, [recebimentos, gastos]);
+  console.log(income)
+  console.log(expense)
 
   if(loading){
     return <div>Carregando...</div>
@@ -63,15 +43,15 @@ localStorage.getItem('transaction') : '';
       <>
     <Header />
     <Resume 
-        income = {income as number}
-        expense= {expense as number}
-        total = {total as number}
+        income = {income }
+        expense= {expense }
+        total = {total}
     />
     <Form 
-        handleAdd= {handleAdd}
-        transactionList={transactionList}
-        setTransactionList= {setTransactionList}
-    />
+        recebidos={recebimentos}
+        gastos={gastos}
+       />
+    
       </>
   )
 }
