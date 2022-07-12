@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Grid from "../shared/grid";
 import moment from "moment";
 
@@ -6,7 +6,7 @@ interface FormProps {
   recebidos: string | number;
   gastos: string | number;
 }
-
+console.log(Number(15).toFixed(2));
 function Form({ recebidos, gastos }: FormProps) {
   const [description, setDescription] = useState<string>("");
   const [incomes, setIncomes] = useState<number>();
@@ -104,14 +104,9 @@ function Form({ recebidos, gastos }: FormProps) {
           ADICIONAR
         </button>
       </div>
-      {/* <button
-        // onClick={submitData}
-        // >
-        //     Eu aqui, aperta!
-        // </button> */}
-        <div className="flex">
-            <Grid recebidos={recebidos} gastos={gastos} />
-        </div>
+      <div className="flex">
+        <Grid recebidos={recebidos} gastos={gastos} />
+      </div>
     </div>
   );
 }
