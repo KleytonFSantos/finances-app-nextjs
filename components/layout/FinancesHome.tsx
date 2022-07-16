@@ -26,7 +26,7 @@ function HomeComponent({ recebimentos, gastos }: IProps) {
 
     setIncome(`R$ ${income}`);
     setExpense(`R$ ${expense}`);
-    setTotal(`${income < expense ? "-" : ""} R$ ${total}`);
+    setTotal(`${income > expense ? "-" : ""} R$ ${total}`);
     setLoading(false);
   }, [recebimentos, gastos]);
 

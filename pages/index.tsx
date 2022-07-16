@@ -16,9 +16,17 @@ const Home: NextPage<any> = ({ incomes, expenses }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  let incomes = await prisma.incomes.findMany();
+  let incomes = await prisma.incomes.findMany({
+    orderBy: {
+      date: "asc",
+    }
+  });
   incomes = JSON.parse(JSON.stringify(incomes));
-  let expenses = await prisma.expenses.findMany();
+  let expenses = await prisma.expenses.findMany({
+    orderBy: {
+      date: "asc",
+    }
+  });
   expenses = JSON.parse(JSON.stringify(expenses));
   return {
     props: { incomes, expenses },

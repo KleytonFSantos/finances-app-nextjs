@@ -27,6 +27,7 @@ function Form({ recebidos, gastos }: FormProps) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
         });
+        window.location.reload();
       } catch (error) {
         console.log(error);
       }
@@ -42,12 +43,15 @@ function Form({ recebidos, gastos }: FormProps) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
         });
+        window.location.reload();
       } catch (error) {
         console.log(error);
       }
+    } else {
+      alert("Preencha os campos");
     }
-    window.location.reload();
-  };
+   
+  } 
 
   date = moment(date).format("DD/MM/YYYY");
 
@@ -98,7 +102,7 @@ function Form({ recebidos, gastos }: FormProps) {
           />
         </div>
         <button
-          className="px-2 py-1 text-zinc-100 border-none h-14 mt-2 rounded cursor-pointer bg-teal-500"
+          className="px-2 py-1 text-zinc-100 hover:opacity-70 active:opacity-80 border-none h-14 mt-2 rounded cursor-pointer bg-teal-500"
           onClick={submitData}
         >
           ADICIONAR
