@@ -31,7 +31,7 @@ const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
     console.log(value.incomes)
     console.log(value.expenses)
   }
-
+ 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (value.incomes) {
@@ -46,8 +46,9 @@ const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
         });
-
-        await Router.push("/");
+        await Router.push("/")  
+        setDescription("");
+        setValue({ incomes: "", expenses: "" });
       } catch (error) {
         console.log(error);
       }
@@ -64,6 +65,8 @@ const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
           body: JSON.stringify(body),
         });
         await Router.push("/");
+        setDescription("");
+        setValue({ incomes: "", expenses: "" });
       } catch (error) {
         console.log(error);
       }
@@ -80,7 +83,8 @@ const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
           <label>Descrição</label>
           <input
             className="outline-none rounded px-3 py-2 border border-zinc-200"
-            placeholder="Digite a descrição "
+            placeholder="Digite a descrição"
+            value={description}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setDescription(e.target.value)
             }

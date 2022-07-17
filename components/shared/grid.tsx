@@ -7,10 +7,14 @@ import {
 } from "react-icons/fa";
 import Router from "next/router";
 import { NextPage } from "next";
-import { Incomes } from "../../types";
 
 interface IProps {
-  recebidos: Incomes;
+  recebidos: {
+    id: number;
+    description: string;
+    date: string;
+    incomes: number;
+  }[];
   gastos: {
     id: number;
     description: string;

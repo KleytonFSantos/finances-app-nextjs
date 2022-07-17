@@ -13,7 +13,7 @@ datasource db {
 model expenses {
   id          Int      @id @default(autoincrement())
   description String
-  expenses    Int 
+  expenses    Int
   date        String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
