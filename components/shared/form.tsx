@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import Grid from "../shared/grid";
 import moment from "moment";
+import CurrencyInput from "../shared/currencyInput";
+import Router from "next/router";
+import { CurrencyInputProps } from "./currencyInputProps";
 
 interface FormProps {
   recebidos: string | number;
@@ -11,7 +14,7 @@ function Form({ recebidos, gastos }: FormProps) {
   const [description, setDescription] = useState<string>("");
   const [incomes, setIncomes] = useState<number>();
   const [expenses, setExpenses] = useState<number>();
-  let [date, setDate] = useState("");
+  let [date, setDate] = useState('');
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -27,7 +30,8 @@ function Form({ recebidos, gastos }: FormProps) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
         });
-        window.location.reload();
+
+        await Router.push("/");
       } catch (error) {
         console.log(error);
       }
@@ -43,7 +47,7 @@ function Form({ recebidos, gastos }: FormProps) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
         });
-        window.location.reload();
+        await Router.push("/");
       } catch (error) {
         console.log(error);
       }
@@ -51,7 +55,16 @@ function Form({ recebidos, gastos }: FormProps) {
       alert("Preencha os campos");
     }
    
-  } 
+  }
+  const handleOnValueChange: CurrencyInputProps['onValueChange'] = (value, _, values): void => {
+    setIncomes(values);
+
+    if (!value) {
+      setIncomes('');
+      return;
+    }
+    console.log(incomes.value)
+  };
 
   date = moment(date).format("DD/MM/YYYY");
 
@@ -61,7 +74,7 @@ function Form({ recebidos, gastos }: FormProps) {
         <div className="flex flex-col">
           <label>Descrição</label>
           <input
-            className="outline-none rounded px-1 py-2 border border-zinc-200"
+            className="outline-none rounded px-3 py-2 border border-zinc-200"
             placeholder="Digite a descrição "
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setDescription(e.target.value)
@@ -71,7 +84,8 @@ function Form({ recebidos, gastos }: FormProps) {
         <div className="flex flex-col">
           <label>Entrada</label>
           <input
-            className="outline-none rounded px-1 py-2 border border-zinc-200"
+            name="incomes"
+            className="outline-none rounded px-3 py-2 border border-zinc-200"
             placeholder="0"
             value={incomes}
             type="number"
@@ -79,24 +93,35 @@ function Form({ recebidos, gastos }: FormProps) {
               setIncomes(e.target.value)
             }
           />
+        
         </div>
         <div className="flex flex-col">
           <label>Saída</label>
-          <input
-            className="outline-none rounded px-1 py-2 border border-zinc-200"
+          {/* <input
+            className="outline-none rounded px-3 py-2 border border-zinc-200"
             placeholder="0"
             value={expenses}
             type="number"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setExpenses(e.target.value)
             }
+          /> */}
+            <CurrencyInput 
+          id="validationCustom01"
+          name="input-1"
+          className="outline-none rounded px-3 py-2 border border-zinc-200"
+          value={expenses}
+          onValueChange={handleOnValueChange}
+          placeholder="0"
+          decimalSeparator=","
+          prefix="R$"
+          step={0.01}
           />
         </div>
         <div className="flex flex-col">
           <label>Data</label>
-
           <input
-            className="outline-none rounded px-1 py-2 border border-zinc-200"
+            className="outline-none rounded px-3 py-2 border border-zinc-200"
             type="date"
             onChange={(e) => setDate(e.target.value)}
           />

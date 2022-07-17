@@ -4,14 +4,14 @@ import Resume from "../shared/resume";
 import Form from "../shared/form";
 
 interface IProps {
-  recebimentos: string;
-  gastos: string;
+  recebimentos: number[] | number;
+  gastos: number[] | number;
 }
 
 function HomeComponent({ recebimentos, gastos }: IProps) {
-  const [income, setIncome] = useState<string>("");
-  const [expense, setExpense] = useState<string>("");
-  const [total, setTotal] = useState<number>(0);
+  const [income, setIncome] = useState<string>();
+  const [expense, setExpense] = useState<string>();
+  const [total, setTotal] = useState<string | number>(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ function HomeComponent({ recebimentos, gastos }: IProps) {
 
     setIncome(`R$ ${income}`);
     setExpense(`R$ ${expense}`);
-    setTotal(`${income > expense ? "-" : ""} R$ ${total}`);
+    setTotal(`${income < expense ? "-" : ""} R$ ${total}`);
     setLoading(false);
   }, [recebimentos, gastos]);
 
@@ -37,8 +37,8 @@ function HomeComponent({ recebimentos, gastos }: IProps) {
   return (
     <>
       <Header />
-      <Resume income={income} expense={expense} total={total} />
-      <Form recebidos={recebimentos} gastos={gastos} />
+      <Resume income={income as string} expense={expense as string} total={total as number} />
+      <Form recebidos={recebimentos as number} gastos={gastos as number} />
     </>
   );
 }
