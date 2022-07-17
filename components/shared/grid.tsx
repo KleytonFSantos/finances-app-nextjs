@@ -3,7 +3,6 @@ import {
   FaRegArrowAltCircleDown,
   FaRegArrowAltCircleUp,
   FaTrash,
-  FaEdit
 } from "react-icons/fa";
 import Router from "next/router";
 import { NextPage } from "next";

@@ -2,7 +2,7 @@ import type { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import FinancesHome from "../components/layout/FinancesHome";
 import styles from "../styles/Home.module.css";
-import prisma from "../lib/prisma";
+import  { prisma }  from "../lib/prisma";
 
 const Home: NextPage<any> = ({ incomes, expenses }) => {
   return (
