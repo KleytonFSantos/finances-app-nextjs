@@ -6,14 +6,23 @@ import {
   FaEdit
 } from "react-icons/fa";
 import Router from "next/router";
+import { NextPage } from "next";
+import { Incomes } from "../../types";
 
-interface GridProps {
-  recebidos: string | number;
-  gastos: string | number;
+interface IProps {
+  recebidos: Incomes;
+  gastos: {
+    id: number;
+    description: string;
+    date: string;
+    expenses: number;
+  }[];
 }
 
-function Grid({ recebidos, gastos }: GridProps) {
+const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
   const [loading, setLoading] = useState(false);
+
+  console.log(recebidos)
 
   const handleDeleteExpense = async (id: number) => {
     setLoading(true);
@@ -52,7 +61,7 @@ function Grid({ recebidos, gastos }: GridProps) {
                     {income.description}
                   </div>
                   <div className="text-gray-600 text-sm mt-2">
-                    R$ {income.incomes.toFixed(2)}
+                    R$ {income.incomes.toString().replace(/(\d)(\d{2})$/, "$1,$2").replace(/(?=(\d{3})+(\D))\B/g,".")}
                   </div>
                 </div>
                 <div className="text-gray-600 text-xs mr-3">
@@ -82,7 +91,7 @@ function Grid({ recebidos, gastos }: GridProps) {
                 <div className="flex-1 pl-1 mr-8">
                   <div className="font-medium ">{expense.description}</div>
                   <div className="text-gray-600 text-sm mt-2">
-                    R$ {expense.expenses.toFixed(2)}
+                    R$ {expense.expenses.toString().replace(/(\d)(\d{2})$/, "$1,$2").replace(/(?=(\d{3})+(\D))\B/g,".")}
                   </div>
                 </div>
                 <div className="text-gray-600 text-xs mr-3">

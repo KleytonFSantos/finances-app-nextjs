@@ -4,8 +4,18 @@ import Resume from "../shared/resume";
 import Form from "../shared/form";
 
 interface IProps {
-  recebimentos: number[] | number;
-  gastos: number[] | number;
+  recebimentos: {
+    id: number;
+    description: string;
+    date: string;
+    incomes: number;
+  }[];
+  gastos: {
+    id: number;
+    description: string;
+    date: string;
+    expenses: number;
+  }[];
 }
 
 function HomeComponent({ recebimentos, gastos }: IProps) {
@@ -13,16 +23,13 @@ function HomeComponent({ recebimentos, gastos }: IProps) {
   const [expense, setExpense] = useState<string>();
   const [total, setTotal] = useState<string | number>(0);
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     const expense = gastos
-      .reduce((acc: number, cur: { expenses: number }) => acc + cur.expenses, 0)
-      .toFixed(2);
+      .reduce((acc, cur) => acc + cur.expenses, 0)
     const income = recebimentos
-      .reduce((acc: number, cur: { incomes: number }) => acc + cur.incomes, 0)
-      .toFixed(2);
-
-    const total = Math.abs(income - expense).toFixed(2);
+      .reduce((acc: number, cur: { incomes: number }) => acc + cur.incomes, 0)      
+    const total = Math.abs(income - expense)
 
     setIncome(`R$ ${income}`);
     setExpense(`R$ ${expense}`);
@@ -37,8 +44,8 @@ function HomeComponent({ recebimentos, gastos }: IProps) {
   return (
     <>
       <Header />
-      <Resume income={income as string} expense={expense as string} total={total as number} />
-      <Form recebidos={recebimentos as number} gastos={gastos as number} />
+      <Resume income={income as string} expense={expense as string} total={total as string} />
+      <Form recebidos={recebimentos} gastos={gastos} />
     </>
   );
 }

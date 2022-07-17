@@ -1,28 +1,44 @@
 import React, { useState } from "react";
 import Grid from "../shared/grid";
 import moment from "moment";
-import CurrencyInput from "../shared/currencyInput";
 import Router from "next/router";
-import { CurrencyInputProps } from "./currencyInputProps";
+import { currencyMask } from "./mask";
+import { NextPage } from "next";
 
-interface FormProps {
-  recebidos: string | number;
-  gastos: string | number;
+interface IProps {
+  recebidos: {
+    id: number;
+    description: string;
+    date: string;
+    incomes: number;
+  }[];
+  gastos: {
+    id: number;
+    description: string;
+    date: string;
+    expenses: number;
+  }[];
 }
 console.log(Number(15).toFixed(2));
-function Form({ recebidos, gastos }: FormProps) {
-  const [description, setDescription] = useState<string>("");
-  const [incomes, setIncomes] = useState<number>();
-  const [expenses, setExpenses] = useState<number>();
+const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
+  const [description, setDescription] = useState("");
+  const [value, setValue] = useState({ incomes: "", expenses: "" });
   let [date, setDate] = useState('');
+  date = moment(date).format("DD/MM/YYYY");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue({ ...value, [e.target.name]: e.target.value });
+    console.log(value.incomes)
+    console.log(value.expenses)
+  }
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (incomes) {
+    if (value.incomes) {
       try {
         const body = {
           description: description,
-          incomes: Number(incomes),
+          incomes: Number(value.incomes.replace(/\D/g, "")),
           date: date,
         };
         await fetch(`/api/createIncome`, {
@@ -35,11 +51,11 @@ function Form({ recebidos, gastos }: FormProps) {
       } catch (error) {
         console.log(error);
       }
-    } else if (expenses) {
+    } else if (value.expenses) {
       try {
         const body = {
           description: description,
-          expenses: Number(expenses),
+          expenses: Number(value.expenses.replace(/\D/g, "")),
           date: date,
         };
         await fetch(`/api/createExpense`, {
@@ -56,17 +72,6 @@ function Form({ recebidos, gastos }: FormProps) {
     }
    
   }
-  const handleOnValueChange: CurrencyInputProps['onValueChange'] = (value, _, values): void => {
-    setIncomes(values);
-
-    if (!value) {
-      setIncomes('');
-      return;
-    }
-    console.log(incomes.value)
-  };
-
-  date = moment(date).format("DD/MM/YYYY");
 
   return (
     <div className="w-full">
@@ -87,35 +92,25 @@ function Form({ recebidos, gastos }: FormProps) {
             name="incomes"
             className="outline-none rounded px-3 py-2 border border-zinc-200"
             placeholder="0"
-            value={incomes}
-            type="number"
+            value={value.incomes}
+            type="text"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setIncomes(e.target.value)
+              handleChange(currencyMask(e))
             }
           />
         
         </div>
         <div className="flex flex-col">
           <label>Saída</label>
-          {/* <input
+          <input
             className="outline-none rounded px-3 py-2 border border-zinc-200"
+            name= "expenses"
             placeholder="0"
-            value={expenses}
-            type="number"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setExpenses(e.target.value)
+            value={value.expenses}
+            type="text"
+            onChange={(e) =>
+              handleChange(currencyMask(e))
             }
-          /> */}
-            <CurrencyInput 
-          id="validationCustom01"
-          name="input-1"
-          className="outline-none rounded px-3 py-2 border border-zinc-200"
-          value={expenses}
-          onValueChange={handleOnValueChange}
-          placeholder="0"
-          decimalSeparator=","
-          prefix="R$"
-          step={0.01}
           />
         </div>
         <div className="flex flex-col">
