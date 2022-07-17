@@ -1,4 +1,4 @@
-import type { GetStaticProps, NextPage } from "next";
+import type { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import FinancesHome from "../components/layout/FinancesHome";
 import styles from "../styles/Home.module.css";
@@ -15,7 +15,7 @@ const Home: NextPage<any> = ({ incomes, expenses }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   let incomes = await prisma.incomes.findMany({
     orderBy: {
       date: "asc",
@@ -30,7 +30,6 @@ export const getStaticProps: GetStaticProps = async () => {
   expenses = JSON.parse(JSON.stringify(expenses));
   return {
     props: { incomes, expenses },
-    revalidate: 10,
   };
 };
 
