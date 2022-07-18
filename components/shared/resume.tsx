@@ -13,6 +13,7 @@ export const Resume: NextPage<IProps> = ({ income, expense, total }) => {
   return (
     <div className="mx-0  my-auto flex gap-5 mt-[-50px] mb-8 justify-around">
       <Card
+        titleStyles="font-bold text-gray-600 text-left"
         styles="text-green-500 lg:w-36"
         title="Entrada"
         Icon={<Money size={32} />}
@@ -21,6 +22,7 @@ export const Resume: NextPage<IProps> = ({ income, expense, total }) => {
           .replace(/(?=(\d{3})+(\D))\B/g, ".")}
       />
       <Card
+        titleStyles="font-bold text-gray-600 text-left"
         styles="text-red-500 lg:w-36"
         title="Saídas"
         Icon={<Cardholder size={32} />}
@@ -29,7 +31,8 @@ export const Resume: NextPage<IProps> = ({ income, expense, total }) => {
           .replace(/(?=(\d{3})+(\D))\B/g, ".")}
       />
       <Card
-        styles="text-gray-600 lg:w-36"
+        titleStyles="font-bold text-gray-100 text-left"
+        styles="text-gray-100 lg:w-36"
         title="Total"
         Icon={<CurrencyDollar size={32} />}
         value={total

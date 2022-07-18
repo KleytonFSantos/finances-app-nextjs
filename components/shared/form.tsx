@@ -111,10 +111,10 @@ export const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
           />
         </div>
         <button
-          className="px-2 py-1 text-zinc-100 hover:opacity-70 active:opacity-80 border-none h-14 mt-2 rounded cursor-pointer bg-teal-500"
+          className="px-6 py-1 text-zinc-100 hover:opacity-70 active:opacity-80 font-bold border-none h-14 mt-2 rounded cursor-pointer bg-teal-500"
           onClick={submitData}
         >
-          ADICIONAR
+          Inserir
         </button>
       </div>
       <div className="flex">

@@ -47,7 +47,7 @@ export const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
         <ul className="flex flex-col divide divide-y">
           {recebidos?.map((income) => (
             <li key={income.id} className="flex flex-row">
-              <div className="select-none cursor-pointer flex flex-1 items-center p-4">
+              <div className="select-none flex flex-1 items-center p-4">
                 <div className="flex-1 pl-1 mr-8">
                   <div className="font-medium ">{income.description}</div>
                   <div className="text-gray-600 text-sm mt-2">
@@ -62,8 +62,9 @@ export const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
                   <FaRegArrowAltCircleUp color="green" size={20} />
                 </div>
                 <div className="text-gray-600 text-xs">{income.date}</div>
-                <div className="ml-3" title="Deletar Entrada?">
+                <div className="ml-3 cursor-pointer" title="Deletar Entrada?">
                   <FaTrash
+                    className="ml-2"
                     onClick={() => handleDeleteIncome(income.id)}
                     color="black"
                     size={15}
@@ -78,7 +79,7 @@ export const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
         <ul className="flex flex-col divide divide-y">
           {gastos?.map((expense) => (
             <li key={expense.id} className="flex flex-row">
-              <div className="select-none cursor-pointer flex flex-1 items-center p-4">
+              <div className="select-none flex flex-1 items-center p-4">
                 <div className="flex-1 pl-1 mr-8">
                   <div className="font-medium ">{expense.description}</div>
                   <div className="text-gray-600 text-sm mt-2">
@@ -93,7 +94,7 @@ export const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
                   <FaRegArrowAltCircleDown color="red" size={20} />
                 </div>
                 <div className="text-gray-600 text-xs">{expense.date}</div>
-                <div className="ml-3" title="Deletar saída?">
+                <div className="ml-3 cursor-pointer" title="Deletar saída?">
                   <FaTrash
                     className="ml-2"
                     onClick={() => handleDeleteExpense(expense.id)}

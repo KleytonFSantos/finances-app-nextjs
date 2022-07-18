@@ -4,17 +4,16 @@ import React from "react";
 interface IProps {
   styles: string;
   title: string;
+  titleStyles: string;
   Icon: any;
   value: string | number;
 }
 
-export const Card: NextPage<IProps> = ({ title, value, Icon, styles }) => {
+export const Card: NextPage<IProps> = ({ title, value, Icon, styles, titleStyles }) => {
   return (
-    <div className="flex items-center justify-center">
-      <div className="bg-white shadow-2xl p-6 rounded-2xl border-2 border-gray-50">
-        <div className="flex flex-col">
-          <div className="flex gap-8 items-center justify-center">
-            <h2 className="font-bold text-gray-600 text-left">{title}</h2>
+      <div className="bg-white shadow-2xl p-6 rounded-2xl border-2 flex flex-col items-center last-of-type:bg-teal-500 last-of-type:border-teal-700 last-of-type:text-zinc-100 border-zinc-100">
+          <div className="gap-8 flex items-center w-full">
+            <h2 className={titleStyles}>{title}</h2>
             <span className={styles}>{Icon}</span>
           </div>
           <div className="my-6">
@@ -24,8 +23,6 @@ export const Card: NextPage<IProps> = ({ title, value, Icon, styles }) => {
               </div>
             </div>
           </div>
-        </div>
       </div>
-    </div>
   );
 };
