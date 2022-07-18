@@ -1,13 +1,14 @@
+import { NextPage } from "next";
 import React from "react";
 
-interface CardsProps {
+interface IProps {
   styles: string;
   title: string;
   Icon: any;
   value: string | number;
 }
 
-function cards({ title, value, Icon, styles }: CardsProps): JSX.Element {
+export const Card: NextPage<IProps> = ({ title, value, Icon, styles }) => {
   return (
     <div className="flex items-center justify-center">
       <div className="bg-white shadow-2xl p-6 rounded-2xl border-2 border-gray-50">
@@ -27,6 +28,4 @@ function cards({ title, value, Icon, styles }: CardsProps): JSX.Element {
       </div>
     </div>
   );
-}
-
-export default cards;
+};

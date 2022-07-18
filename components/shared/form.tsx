@@ -1,35 +1,26 @@
 import React, { useState } from "react";
-import Grid from "../shared/grid";
+import { Grid } from "../shared/grid";
 import moment from "moment";
 import Router from "next/router";
-import { currencyMask } from "./mask";
+import { currencyMask } from "../../utils/mask";
 import { NextPage } from "next";
+import { Expenses, Incomes } from "../../types";
 
 interface IProps {
-  recebidos: {
-    id: number;
-    description: string;
-    date: string;
-    incomes: number;
-  }[];
-  gastos: {
-    id: number;
-    description: string;
-    date: string;
-    expenses: number;
-  }[];
+  recebidos: Incomes[];
+  gastos: Expenses[];
 }
-console.log(Number(15).toFixed(2));
-const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
+
+export const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
   const [description, setDescription] = useState("");
   const [value, setValue] = useState({ incomes: "", expenses: "" });
-  let [date, setDate] = useState('');
+  let [date, setDate] = useState("");
   date = moment(date).format("DD/MM/YYYY");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...value, [e.target.name]: e.target.value });
-  }
- 
+  };
+
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (value.incomes) {
@@ -44,7 +35,7 @@ const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
         });
-        await Router.push("/")  
+        await Router.push("/");
         setDescription("");
         setValue({ incomes: "", expenses: "" });
       } catch (error) {
@@ -71,8 +62,7 @@ const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
     } else {
       alert("Preencha os campos");
     }
-   
-  }
+  };
 
   return (
     <div className="w-full">
@@ -100,19 +90,16 @@ const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
               handleChange(currencyMask(e))
             }
           />
-        
         </div>
         <div className="flex flex-col">
           <label>Saída</label>
           <input
             className="outline-none rounded px-3 py-2 border border-zinc-200"
-            name= "expenses"
+            name="expenses"
             placeholder="0"
             value={value.expenses}
             type="text"
-            onChange={(e) =>
-              handleChange(currencyMask(e))
-            }
+            onChange={(e) => handleChange(currencyMask(e))}
           />
         </div>
         <div className="flex flex-col">
@@ -135,6 +122,4 @@ const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
       </div>
     </div>
   );
-}
-
-export default Form;
+};

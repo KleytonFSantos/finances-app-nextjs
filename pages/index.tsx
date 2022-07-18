@@ -1,17 +1,53 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import FinancesHome from "../components/layout/FinancesHome";
 import styles from "../styles/Home.module.css";
 import  { prisma }  from "../lib/prisma";
+import { useEffect, useState } from "react";
+import { Header } from "../components/shared/header";
+import { Resume } from "../components/shared/resume";
+import { Form } from "../components/shared/form";
+import { Expenses, Incomes } from "../types";
 
-const Home: NextPage<any> = ({ incomes, expenses }) => {
+interface IProps {
+  incomes: Incomes[];
+  expenses: Expenses[];
+}
+
+const Home: NextPage<IProps> = ({ incomes, expenses }) => {
+  const [income, setIncome] = useState<string>();
+  const [expense, setExpense] = useState<string>();
+  const [total, setTotal] = useState<string | number>(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const expense = expenses.reduce((acc, cur) => acc + cur.expenses, 0);
+    const income = incomes.reduce(
+      (acc, cur) => acc + cur.incomes,
+      0
+    );
+    const total = Math.abs(income - expense);
+
+    setIncome(`R$ ${income}`);
+    setExpense(`R$ ${expense}`);
+    setTotal(`${income < expense ? "-" : ""} R$ ${total}`);
+    setLoading(false);
+  }, [incomes, expenses]);
+
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
   return (
     <div className={styles.container}>
       <Head>
         <title>Finances-App</title>
       </Head>
-      <FinancesHome recebimentos={incomes} gastos={expenses} />
-    </div>
+      <Header />
+      <Resume
+        income={income as string}
+        expense={expense as string}
+        total={total as string}
+      />
+      <Form recebidos={incomes} gastos={expenses} />    </div>
   );
 };
 

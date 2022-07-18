@@ -6,23 +6,14 @@ import {
 } from "react-icons/fa";
 import Router from "next/router";
 import { NextPage } from "next";
+import { Expenses, Incomes } from "../../types";
 
 interface IProps {
-  recebidos: {
-    id: number;
-    description: string;
-    date: string;
-    incomes: number;
-  }[];
-  gastos: {
-    id: number;
-    description: string;
-    date: string;
-    expenses: number;
-  }[];
+  recebidos: Incomes[];
+  gastos: Expenses[];
 }
 
-const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
+export const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
   const [loading, setLoading] = useState(false);
 
   const handleDeleteExpense = async (id: number) => {
@@ -42,7 +33,7 @@ const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
     await Router.push("/");
     setLoading(false);
   };
-  
+
   if (loading)
     return (
       <div className="text-center text-red-600 w-full flex mt-8 justify-center items-center">
@@ -58,29 +49,28 @@ const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
             <li key={income.id} className="flex flex-row">
               <div className="select-none cursor-pointer flex flex-1 items-center p-4">
                 <div className="flex-1 pl-1 mr-8">
-                  <div className="font-medium ">
-                    {income.description}
-                  </div>
+                  <div className="font-medium ">{income.description}</div>
                   <div className="text-gray-600 text-sm mt-2">
-                    R$ {income.incomes.toString().replace(/(\d)(\d{2})$/, "$1,$2").replace(/(?=(\d{3})+(\D))\B/g,".")}
+                    R${" "}
+                    {income.incomes
+                      .toString()
+                      .replace(/(\d)(\d{2})$/, "$1,$2")
+                      .replace(/(?=(\d{3})+(\D))\B/g, ".")}
                   </div>
                 </div>
                 <div className="text-gray-600 text-xs mr-3">
                   <FaRegArrowAltCircleUp color="green" size={20} />
                 </div>
-                <div className="text-gray-600 text-xs">
-                  {income.date}
-                </div>
-                <div
-                className="ml-3"
-                title="Deletar Entrada?"
-                >
+                <div className="text-gray-600 text-xs">{income.date}</div>
+                <div className="ml-3" title="Deletar Entrada?">
                   <FaTrash
-                  onClick={() => handleDeleteIncome(income.id)}
-                  color="black" size={15} />
+                    onClick={() => handleDeleteIncome(income.id)}
+                    color="black"
+                    size={15}
+                  />
                 </div>
               </div>
-            </li> 
+            </li>
           ))}
         </ul>
       </div>
@@ -92,7 +82,11 @@ const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
                 <div className="flex-1 pl-1 mr-8">
                   <div className="font-medium ">{expense.description}</div>
                   <div className="text-gray-600 text-sm mt-2">
-                    R$ {expense.expenses.toString().replace(/(\d)(\d{2})$/, "$1,$2").replace(/(?=(\d{3})+(\D))\B/g,".")}
+                    R${" "}
+                    {expense.expenses
+                      .toString()
+                      .replace(/(\d)(\d{2})$/, "$1,$2")
+                      .replace(/(?=(\d{3})+(\D))\B/g, ".")}
                   </div>
                 </div>
                 <div className="text-gray-600 text-xs mr-3">
@@ -106,10 +100,8 @@ const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
                     color="black"
                     size={15}
                   />
-                   
                 </div>
-                <div className="ml-3" title="Editar saída?">
-                </div>
+                <div className="ml-3" title="Editar saída?"></div>
               </div>
             </li>
           ))}
@@ -117,6 +109,4 @@ const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
       </div>
     </>
   );
-}
-
-export default Grid;
+};
