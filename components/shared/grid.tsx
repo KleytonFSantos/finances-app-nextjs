@@ -25,8 +25,6 @@ interface IProps {
 const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
   const [loading, setLoading] = useState(false);
 
-  console.log(recebidos)
-
   const handleDeleteExpense = async (id: number) => {
     setLoading(true);
     await fetch(`/api/deleteExpenses/${id}`, {

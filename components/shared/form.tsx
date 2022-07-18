@@ -28,8 +28,6 @@ const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...value, [e.target.name]: e.target.value });
-    console.log(value.incomes)
-    console.log(value.expenses)
   }
  
   const submitData = async (e: React.SyntheticEvent) => {
