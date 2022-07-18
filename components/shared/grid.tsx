@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Loader } from "../shared/loader";
 import {
   FaRegArrowAltCircleDown,
   FaRegArrowAltCircleUp,
@@ -36,9 +37,7 @@ export const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
 
   if (loading)
     return (
-      <div className="text-center text-red-600 w-full flex mt-8 justify-center items-center">
-        Carregando...
-      </div>
+      <Loader />
     );
 
   return (

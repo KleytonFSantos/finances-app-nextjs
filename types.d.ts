@@ -3,7 +3,7 @@ export interface Incomes {
     description: string;
     incomes: number;
     date: string;
-}[]
+}
 
 export interface Expenses {
     id: number;

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Grid } from "../shared/grid";
+import { Loader } from "../shared/loader";
 import moment from "moment";
 import Router from "next/router";
 import { currencyMask } from "../../utils/mask";
@@ -13,6 +14,7 @@ interface IProps {
 
 export const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
   const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
   const [value, setValue] = useState({ incomes: "", expenses: "" });
   let [date, setDate] = useState("");
   date = moment(date).format("DD/MM/YYYY");
@@ -22,6 +24,7 @@ export const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
   };
 
   const submitData = async (e: React.SyntheticEvent) => {
+    setLoading(true);
     e.preventDefault();
     if (value.incomes) {
       try {
@@ -62,13 +65,20 @@ export const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
     } else {
       alert("Preencha os campos");
     }
+    setLoading(false)
   };
+
+  if(loading) {
+    return (
+      <Loader />
+    );
+  }
 
   return (
     <div className="w-full">
       <div className="w-full lg:flex bg-white shadow rounded grid justify-around p-4 gap-2">
         <div className="flex flex-col">
-          <label>Descrição</label>
+          <label className="font-bold text-gray-600 text-left mb-2">Descrição</label>
           <input
             className="outline-none rounded px-3 py-2 border border-zinc-200"
             placeholder="Digite a descrição"
@@ -79,7 +89,7 @@ export const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
           />
         </div>
         <div className="flex flex-col">
-          <label>Entrada</label>
+          <label className="font-bold text-gray-600 text-left mb-2">Entrada</label>
           <input
             name="incomes"
             className="outline-none rounded px-3 py-2 border border-zinc-200"
@@ -92,7 +102,7 @@ export const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
           />
         </div>
         <div className="flex flex-col">
-          <label>Saída</label>
+          <label className="font-bold text-gray-600 text-left mb-2">Saída</label>
           <input
             className="outline-none rounded px-3 py-2 border border-zinc-200"
             name="expenses"
@@ -103,7 +113,7 @@ export const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
           />
         </div>
         <div className="flex flex-col">
-          <label>Data</label>
+          <label className="font-bold text-gray-600 text-left mb-2">Data</label>
           <input
             className="outline-none rounded px-3 py-2 border border-zinc-200"
             type="date"
@@ -111,7 +121,7 @@ export const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
           />
         </div>
         <button
-          className="px-6 py-1 text-zinc-100 hover:opacity-70 active:opacity-80 font-bold border-none h-14 mt-2 rounded cursor-pointer bg-teal-500"
+          className="px-6 text-zinc-100 hover:opacity-70 active:opacity-80 font-bold border-none h-14 mt-6 rounded cursor-pointer bg-teal-500"
           onClick={submitData}
         >
           Inserir
