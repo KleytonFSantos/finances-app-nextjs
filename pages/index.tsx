@@ -18,7 +18,6 @@ const Home: NextPage<IProps> = ({ incomes, expenses }) => {
   const [expense, setExpense] = useState<string>();
   const [total, setTotal] = useState<string | number>(0);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const expense = expenses.reduce((acc, cur) => acc + cur.expenses, 0);
     const income = incomes.reduce(
@@ -26,16 +25,16 @@ const Home: NextPage<IProps> = ({ incomes, expenses }) => {
       0
     );
     const total = Math.abs(income - expense);
-
+    
     setIncome(`R$ ${income}`);
     setExpense(`R$ ${expense}`);
     setTotal(`${income < expense ? "-" : ""} R$ ${total}`);
     setLoading(false);
   }, [incomes, expenses]);
-
   if (loading) {
     return <div>Carregando...</div>;
   }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -47,7 +46,8 @@ const Home: NextPage<IProps> = ({ incomes, expenses }) => {
         expense={expense as string}
         total={total as string}
       />
-      <Form recebidos={incomes} gastos={expenses} />    </div>
+      <Form recebidos={incomes} gastos={expenses} />    
+    </div>
   );
 };
 
@@ -64,8 +64,12 @@ export const getServerSideProps: GetServerSideProps = async () => {
     }
   });
   expenses = JSON.parse(JSON.stringify(expenses));
+    
   return {
-    props: { incomes, expenses },
+    props: { 
+      incomes, 
+      expenses,
+    },
   };
 };
 

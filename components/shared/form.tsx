@@ -1,11 +1,14 @@
 import React, { useState } from "react";
+import { PopoverAdd } from "./popover";
 import { Grid } from "../shared/grid";
 import { Loader } from "../shared/loader";
+import { AddTransaction } from "./addTransactionForm";
 import moment from "moment";
 import Router from "next/router";
 import { currencyMask } from "../../utils/mask";
 import { NextPage } from "next";
 import { Expenses, Incomes } from "../../types";
+import { Transition } from "@headlessui/react";
 
 interface IProps {
   recebidos: Incomes[];
@@ -15,6 +18,8 @@ interface IProps {
 export const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
+  const [addIncome, setAddIncome] = useState(false);
+  const [addExpense, setAddExpense] = useState(false);
   const [value, setValue] = useState({ incomes: "", expenses: "" });
   let [date, setDate] = useState("");
   date = moment(date).format("DD/MM/YYYY");
@@ -41,6 +46,8 @@ export const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
         await Router.push("/");
         setDescription("");
         setValue({ incomes: "", expenses: "" });
+        setAddExpense(false);
+        setAddIncome(false);
       } catch (error) {
         console.log(error);
       }
@@ -59,74 +66,55 @@ export const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
         await Router.push("/");
         setDescription("");
         setValue({ incomes: "", expenses: "" });
+        setAddExpense(false);
+        setAddIncome(false);
       } catch (error) {
         console.log(error);
       }
     } else {
       alert("Preencha os campos");
     }
-    setLoading(false)
+    setLoading(false);
   };
 
-  if(loading) {
-    return (
-      <Loader />
-    );
+  if (loading) {
+    return <Loader />;
   }
 
   return (
     <div className="w-full">
-      <div className="w-full lg:flex bg-white shadow rounded grid justify-around p-4 gap-2">
-        <div className="flex flex-col">
-          <label className="font-bold text-gray-600 text-left mb-2">Descrição</label>
-          <input
-            className="outline-none rounded px-3 py-2 border border-zinc-200"
-            placeholder="Digite a descrição"
-            value={description}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setDescription(e.target.value)
-            }
-          />
-        </div>
-        <div className="flex flex-col">
-          <label className="font-bold text-gray-600 text-left mb-2">Entrada</label>
-          <input
-            name="incomes"
-            className="outline-none rounded px-3 py-2 border border-zinc-200"
-            placeholder="0"
-            value={value.incomes}
-            type="text"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              handleChange(currencyMask(e))
-            }
-          />
-        </div>
-        <div className="flex flex-col">
-          <label className="font-bold text-gray-600 text-left mb-2">Saída</label>
-          <input
-            className="outline-none rounded px-3 py-2 border border-zinc-200"
-            name="expenses"
-            placeholder="0"
-            value={value.expenses}
-            type="text"
-            onChange={(e) => handleChange(currencyMask(e))}
-          />
-        </div>
-        <div className="flex flex-col">
-          <label className="font-bold text-gray-600 text-left mb-2">Data</label>
-          <input
-            className="outline-none rounded px-3 py-2 border border-zinc-200"
-            type="date"
-            onChange={(e) => setDate(e.target.value)}
-          />
-        </div>
-        <button
-          className="px-6 text-zinc-100 hover:opacity-70 active:opacity-80 font-bold border-none h-14 mt-6 rounded cursor-pointer bg-teal-500"
-          onClick={submitData}
-        >
-          Inserir
-        </button>
-      </div>
+      <PopoverAdd
+        addExpenseSwitch={() => {
+          setAddExpense(true), setAddIncome(false);
+        }}
+        addIncomeSwitch={() => {
+          setAddIncome(true), setAddExpense(false);
+        }}
+      />
+      {addIncome ? (
+        <AddTransaction
+          inputName="incomes"
+          clickButton={submitData}
+          title="Entrada"
+          description={description}
+          setDescription={setDescription}
+          setDate={(e) => setDate(e.target.value)}
+          valueTransaction={value.incomes}
+          changeInput={(e) => handleChange(currencyMask(e))}
+        />
+      ) : null}
+      {addExpense ? (
+        <AddTransaction
+          inputName="expenses"
+          clickButton={submitData}
+          description={description}
+          title="Saída"
+          setDescription={setDescription}
+          setDate={(e) => setDate(e.target.value)}
+          valueTransaction={value.expenses}
+          changeInput={(e) => handleChange(currencyMask(e))}
+        />
+      ) : null}
       <div className="flex">
         <Grid recebidos={recebidos} gastos={gastos} />
       </div>

@@ -43,6 +43,7 @@ export const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
   return (
     <>
       <div className="container font-sans flex flex-col mx-auto w-[50%] items-center mt-4 justify-start bg-white shadow">
+        <h1 className="font-bold text-gray-600 text-left mb-5">Entradas</h1>
         <ul className="flex flex-col divide divide-y">
           {recebidos?.map((income) => (
             <li key={income.id} className="flex flex-row">
@@ -75,6 +76,7 @@ export const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
         </ul>
       </div>
       <div className="container font-sans flex flex-col mx-auto w-[50%] items-center mt-4 justify-start bg-white shadow">
+        <h1 className="font-bold text-gray-600 text-left mb-5">Despesas</h1>
         <ul className="flex flex-col divide divide-y">
           {gastos?.map((expense) => (
             <li key={expense.id} className="flex flex-row">
