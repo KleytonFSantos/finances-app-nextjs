@@ -45,7 +45,7 @@ export const Resume: NextPage<IProps> = ({ income, expense, total }) => {
       .replace(/(?=(\d{3})+(\D))\B/g, ".")}
   /> ]
 
-  const refs = cards.reduce((acc, val, i) => {
+  const refs = cards.reduce((acc: number, val, i) => {
     acc[i] = React.createRef();
     return acc;
   }, {});
