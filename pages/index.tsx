@@ -1,6 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
 import  { prisma }  from "../lib/prisma";
 import { useEffect, useState } from "react";
 import { Header } from "../components/shared/header";
@@ -36,18 +35,19 @@ const Home: NextPage<IProps> = ({ incomes, expenses }) => {
   }
 
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Finances-App</title>
       </Head>
-      <Header />
+     <Header />
       <Resume
         income={income as string}
         expense={expense as string}
         total={total as string}
       />
+     
       <Form recebidos={incomes} gastos={expenses} />    
-    </div>
+     </div>
   );
 };
 

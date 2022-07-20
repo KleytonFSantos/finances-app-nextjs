@@ -115,7 +115,7 @@ export const Form: NextPage<IProps> = ({ recebidos, gastos }) => {
           changeInput={(e) => handleChange(currencyMask(e))}
         />
       ) : null}
-      <div className="flex">
+      <div className="lg:flex">
         <Grid recebidos={recebidos} gastos={gastos} />
       </div>
     </div>

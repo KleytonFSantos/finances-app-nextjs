@@ -11,7 +11,7 @@ interface IProps {
 
 export const Card: NextPage<IProps> = ({ title, value, Icon, styles, titleStyles }) => {
   return (
-      <div className="bg-white shadow-2xl p-6 rounded-2xl border-2 flex flex-col items-center last-of-type:bg-teal-500 last-of-type:border-teal-700 last-of-type:text-zinc-100 border-zinc-100">
+      <div className="bg-white shadow lg:shadow-2xl lg:p-6 rounded-2xl border-2 flex flex-col items-center  border-zinc-100">
           <div className="gap-8 flex items-center w-full">
             <h2 className={titleStyles}>{title}</h2>
             <span className={styles}>{Icon}</span>
