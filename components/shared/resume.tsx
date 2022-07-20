@@ -48,7 +48,7 @@ export const Resume: NextPage<IProps> = ({ income, expense, total }) => {
   const refs = cards.reduce((acc, val, i) => {
     acc[i] = createRef();
     return acc;
-  }, {});
+  });
 
   const scrollToImage = i => {
     // First let's set the index of the image we want to see next
