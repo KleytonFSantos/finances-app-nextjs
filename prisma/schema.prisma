@@ -10,20 +10,17 @@ datasource db {
   referentialIntegrity = "prisma"
 }
 
-model expenses {
-  id          Int      @id @default(autoincrement())
+model finances {
+  id          String   @id
   description String
-  expenses    Int
+  value       Int
+  category    Category 
   date        String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
 }
 
-model incomes {
-  id          Int      @id @default(autoincrement())
-  description String
-  incomes     Int
-  date        String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
+enum Category {
+  income
+  expense
 }

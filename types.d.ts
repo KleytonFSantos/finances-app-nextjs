@@ -1,13 +1,7 @@
-export interface Incomes {
-    id: number;
+export interface Finances {
+    id: string;
     description: string;
-    incomes: number;
-    date: string;
-}
-
-export interface Expenses {
-    id: number;
-    description: string;
-    expenses: number;
+    category: string;
+    value: number;
     date: string;
 }
