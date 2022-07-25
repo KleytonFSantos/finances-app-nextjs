@@ -9,6 +9,10 @@ body {
   color: black;
 }
 
+body {
+  background: #E5E5E5;
+}
+
 .carousel {
   display: inline-flex;
   overflow-x: hidden;
