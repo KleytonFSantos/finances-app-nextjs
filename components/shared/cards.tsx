@@ -1,16 +1,15 @@
 import { NextPage } from "next";
-import { BsArrowUpCircle } from "react-icons/bs"
 
 interface IProps {
     title: string;
     value: string;
     icon: React.ReactNode;
-    ultimaTransacao: string;
+    lastTransition: string;
 }
 
-export const Cards: NextPage<IProps> = ({ title, icon, value, ultimaTransacao}) => {
+export const Cards: NextPage<IProps> = ({ title, icon, value, lastTransition}) => {
     return (
-        <div className="w-4/5 h-[175px] bg-white ml-9 mt-[-90px] font-poppins flex flex-col rounded-md">
+        <div className="w-[82%] h-[175px] bg-white mt-[0px] ml-9 snap-center font-poppins flex flex-col rounded-md">
             <div className="flex flex-row justify-between p-4">
                 <h1>
                     {title}
@@ -24,7 +23,7 @@ export const Cards: NextPage<IProps> = ({ title, icon, value, ultimaTransacao}) 
                     R$ {value}
                 </div>
                 <small className="text-zinc-500">
-                    {ultimaTransacao}
+                    {lastTransition}
                 </small>
             </div>
             
