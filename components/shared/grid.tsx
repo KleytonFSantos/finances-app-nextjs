@@ -14,6 +14,8 @@ interface IProps {
   gastos: Expenses[];
 }
 
+
+
 export const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
   const [loading, setLoading] = useState(false);
 
@@ -39,10 +41,11 @@ export const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
     return (
       <Loader />
     );
-
+  const totalIncomes:number = recebidos.map((item:Incomes) => item.incomes)
+  const totalExpenses:number = gastos.map((item:Incomes) => item.expenses)
   return (
     <>
-      <div className="container font-sans flex flex-col mx-auto w-[50%] items-center mt-4 justify-start bg-white shadow">
+      {totalIncomes > 0 ? <div className="container font-sans flex flex-col mx-auto w-[50%] items-center mt-4 justify-start bg-white shadow">
         <h1 className="font-bold text-gray-600 text-left mb-5">Entradas</h1>
         <ul className="flex flex-col divide divide-y">
           {recebidos?.map((income) => (
@@ -74,8 +77,8 @@ export const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
             </li>
           ))}
         </ul>
-      </div>
-      <div className="container font-sans flex flex-col mx-auto w-[50%] items-center mt-4 justify-start bg-white shadow">
+      </div> : ""}
+      {totalExpenses > 0 ? <div className="container font-sans flex flex-col mx-auto w-[50%] items-center mt-4 justify-start bg-white shadow">
         <h1 className="font-bold text-gray-600 text-left mb-5">Despesas</h1>
         <ul className="flex flex-col divide divide-y">
           {gastos?.map((expense) => (
@@ -108,7 +111,7 @@ export const Grid: NextPage<IProps> = ({ recebidos, gastos }) => {
             </li>
           ))}
         </ul>
-      </div>
+      </div> : ""}
     </>
   );
 };

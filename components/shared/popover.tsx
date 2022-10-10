@@ -11,7 +11,7 @@ interface IProps {
 export const PopoverAdd: NextPage<IProps> = ({addIncomeSwitch, addExpenseSwitch}) => {
  
   return (
-    <div className="flex justify-center w-full px-4 mb-16">
+    <div className="flex justify-center w-full px-4 mb-16 mt-8">
       <Popover className="relative" title="Adicione uma nova transação">
         {({ open }) => (
           <>

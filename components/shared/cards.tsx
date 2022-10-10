@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import React from "react";
 
 interface IProps {
+  cardStyle: string;
   styles: string;
   title: string;
   titleStyles: string;
@@ -9,9 +10,9 @@ interface IProps {
   value: string | number;
 }
 
-export const Card: NextPage<IProps> = ({ title, value, Icon, styles, titleStyles }) => {
+export const Card: NextPage<IProps> = ({ cardStyle, title, value, Icon, styles, titleStyles }) => {
   return (
-      <div className="bg-white shadow lg:shadow-2xl lg:p-6 rounded-2xl border-2 flex flex-col items-center  border-zinc-100">
+      <div className={cardStyle}>
           <div className="gap-8 flex items-center w-full">
             <h2 className={titleStyles}>{title}</h2>
             <span className={styles}>{Icon}</span>
